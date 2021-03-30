@@ -1,4 +1,6 @@
+from __future__ import annotations
 import random
+
 
 SCORE = {
     0: "Love",
@@ -20,7 +22,7 @@ def point(weight: float = 0.5) -> int:
     return int(random.random() < weight)
 
 
-def announce(scores) -> str:
+def announce(scores: list[int]) -> str:
     """Announce current score of the game.
 
     :param scores:

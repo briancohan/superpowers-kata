@@ -31,3 +31,34 @@ Hooks I've installed:
 * `trailing-whitespace`: Keep commits clean by trailing extra whitespace.
 * `black`: Keeps Python code nice, tidy, and readable.
 * `mypy`: Checks that my static typing is correct.
+
+## Github Actions is not as scary as I thought.
+
+A while ago, I had played with Github Actions and I managed to get something to work for that repo, but it felt like magic and I was afraid to touch the config file. I took a look at [Building and testing Python](https://docs.github.com/en/actions/guides/building-and-testing-python) and either the documentation has improved since I last looked at it or my comprehension improved. Now I have CI/CD checks to make sure that all the tests pass and that black formatting is maintained.
+
+Why have black in my pre-commit AND github actions? Well, it's possible I might clone the repo on another computer and forget to install the pre-commit hooks. This will help me realize that I missed the step on that computer.
+
+## pytest has trouble with standard collection types
+
+I had a function signature of `def announce(scores: list[int]) -> str:`. WHen running pytest, this caused an error of:
+
+    ~~~~~ ERROR collecting src/kata-01-tennis/test_kata.py ~~~~~
+    src/kata-01-tennis/test_kata.py:2: in <module>
+        import kata
+    src/kata-01-tennis/kata.py:25: in <module>
+        def announce(scores: list[int]) -> str:
+    E   TypeError: 'type' object is not subscriptable
+
+I'm developing in Python 3.9, so I know that the syntax should work. `def announce(scores: list) -> str:` was not causing any errors.
+
+Digging around, I came to [PEP 585: Type Hinting Generics in Standard Collections](https://www.python.org/dev/peps/pep-0585/) and found the following passage:
+
+> Starting with Python 3.7, when from __future__ import annotations is used, function and variable annotations can parameterize standard collections directly. Example:
+```python
+from __future__ import annotations
+
+def find(haystack: dict[str, list[int]]) -> int:
+    ...
+```
+
+Adding the `__future__` import at the top of the file allowed pytest to run and all the tests passed.
