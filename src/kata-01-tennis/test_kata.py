@@ -71,3 +71,9 @@ def test_game_winner_with_unfair_match(weight, winner):
 def test_game_set_winner_with_unfair_match(weight, winner):
     _winner, _ = kata.game_set(weight=weight)
     assert _winner == winner
+
+
+@players
+def test_game_match_winner_with_unfair_match(weight, winner):
+    _winner, _ = kata.game_match(weight=weight)
+    assert _winner == winner

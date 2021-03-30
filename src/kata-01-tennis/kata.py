@@ -107,3 +107,24 @@ def game_set(weight: float = 0.5) -> tuple[int, list[int]]:
         if max(scores) >= 6 and abs(scores[0] - scores[1]) > 2:
             winner = scores.index(max(scores))
             return winner, scores
+
+
+def game_match(weight: float = 0.5) -> tuple[int, list[int]]:
+    """Simulate a tennis match.
+
+    First to three wins.
+
+    :param weight:
+        If one team is presumed to be better, assign the probablility of
+        team 0 to win a given point. Default value assumes an even match
+    :returns:
+        - int: index of team that wins
+        - list[int]: scores
+    """
+    scores = [0, 0]
+    while max(scores) < 3:
+        winner, set_scores = game_set(weight=weight)
+        scores[winner] += 1
+
+    winner = scores.index(max(scores))
+    return winner, scores
