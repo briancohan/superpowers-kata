@@ -24,7 +24,7 @@ jobs:
 
       - name: pytest
         run: |
-          pytest
+          pytest --cov=src
 
       - name: Black
         uses: psf/black@stable
