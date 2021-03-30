@@ -28,3 +28,7 @@ jobs:
 
       - name: Black
         uses: psf/black@stable
+
+      - name: Mypy
+        run: |
+          mypy src/
