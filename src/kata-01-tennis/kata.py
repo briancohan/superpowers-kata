@@ -1,3 +1,11 @@
+"""Simulate tennis matches
+
+The growth challenge kata suggests simulating a single game and calling out
+the score. However, I wanted to go a little extra and do game-set-match.
+
+For official tennis terminology and rules:
+https://www.usta.com/en/home/improve/tips-and-instruction/national/tennis-scoring-rules.html
+"""
 from __future__ import annotations
 import random
 
