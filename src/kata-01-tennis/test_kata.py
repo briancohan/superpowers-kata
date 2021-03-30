@@ -52,13 +52,22 @@ def test_announce(scores, announcement):
     assert kata.announce(scores) == announcement
 
 
-@pytest.mark.parametrize(
+players = pytest.mark.parametrize(
     "weight, winner",
     [
         (0.0, 0),
         (1.0, 1),
     ],
 )
+
+
+@players
 def test_game_winner_with_unfair_match(weight, winner):
     _winner, _ = kata.game(weight=weight)
+    assert _winner == winner
+
+
+@players
+def test_game_set_winner_with_unfair_match(weight, winner):
+    _winner, _ = kata.game_set(weight=weight)
     assert _winner == winner

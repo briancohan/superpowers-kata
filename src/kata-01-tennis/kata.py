@@ -8,6 +8,7 @@ https://www.usta.com/en/home/improve/tips-and-instruction/national/tennis-scorin
 """
 from __future__ import annotations
 import random
+from itertools import cycle
 
 
 SCORE = {
@@ -16,6 +17,7 @@ SCORE = {
     2: "Thirty",
     3: "Forty",
 }
+SERVER = cycle([0, 1])
 
 
 def point(weight: float = 0.5) -> int:
@@ -78,3 +80,30 @@ def game(weight: float = 0.5) -> tuple[int, list[str]]:
         if "Win" in annoucements[-1]:
             winner = scores.index(max(scores))
             return winner, annoucements
+
+
+def game_set(weight: float = 0.5) -> tuple[int, list[int]]:
+    """Simulate a set of games.
+
+    Logic follows the 'advantage set' rules where the winner must
+    win by at least two games.
+
+    :param weight:
+        If one team is presumed to be better, assign the probablility of
+        team 0 to win a given point. Default value assumes an even match
+    :returns:
+        - int: index of team that wins
+        - list[int]: scores
+    """
+    scores = [0, 0]
+    while True:
+        serving = next(SERVER)
+        _weight = weight if serving == 0 else 1 - weight
+        winner, announcements = game(weight=_weight)
+
+        winner_ix = (winner + serving) % 2
+        scores[winner_ix] += 1
+
+        if max(scores) >= 6 and abs(scores[0] - scores[1]) > 2:
+            winner = scores.index(max(scores))
+            return winner, scores
