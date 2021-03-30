@@ -50,3 +50,15 @@ def test_point_with_weights():
 def test_announce(scores, announcement):
     """Test that the correct score is announced."""
     assert kata.announce(scores) == announcement
+
+
+@pytest.mark.parametrize(
+    "weight, winner",
+    [
+        (0.0, 0),
+        (1.0, 1),
+    ],
+)
+def test_game_winner_with_unfair_match(weight, winner):
+    _winner, _ = kata.game(weight=weight)
+    assert _winner == winner

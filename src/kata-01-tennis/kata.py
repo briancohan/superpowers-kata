@@ -50,3 +50,23 @@ def announce(scores: list[int]) -> str:
         return "Server Wins"
     else:
         return "Receiver Wins"
+
+
+def game(weight: float = 0.5) -> tuple[int, list[str]]:
+    """Simulate a game of tennis.
+
+    :param weight:
+        If one team is presumed to be better, assign the probablility of
+        team 0 to win a given point. Default value assumes an even match
+    :returns:
+        - int: index of team that wins
+        - list[str]: score announcements
+    """
+    scores = [0, 0]
+    annoucements = []
+    while True:
+        scores[point(weight=weight)] += 1
+        annoucements.append(announce(scores))
+        if "Win" in annoucements[-1]:
+            winner = scores.index(max(scores))
+            return winner, annoucements
