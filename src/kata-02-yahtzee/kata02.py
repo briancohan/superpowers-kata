@@ -1,9 +1,16 @@
+"""Score a roll of yahtzee
+
+The growth challenge kata is to calculate the score from a roll of yahtzee.
+This module will ensure that the roll is valid and pick the highest possible
+score for the given dice.
+"""
 from __future__ import annotations
-from random import randint
+
 import functools
-from collections import Counter
 import inspect
 import sys
+from collections import Counter
+from random import randint
 
 
 class KataError(Exception):
