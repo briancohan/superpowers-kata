@@ -1,5 +1,5 @@
 import pytest
-import kata
+import kata01 as kata
 
 
 def test_point():
