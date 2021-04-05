@@ -62,3 +62,50 @@ def find(haystack: dict[str, list[int]]) -> int:
 ```
 
 Adding the `__future__` import at the top of the file allowed pytest to run and all the tests passed.
+
+## Defining custom exceptions can be really easy
+
+All you need to do is wrap the `Exception` class or one of the derivative classes.
+
+```python
+class KataError(Exception):
+    pass
+
+class KataSubError(KataError):
+    pass
+```
+
+With this, it's easier to make error message that are more useful. To test them, you can use [`pytest.raises`](https://docs.pytest.org/en/stable/reference.html#pytest-raises) to make sure that an error occurs when it is supposed to. You can also check that the error has the expected message or that it's subclasssed form another error class.
+
+```python
+def test_raises_error():
+    with pytest.raises(KataSubError) as exc_info:
+        raise KataSubError("something is wrong")
+    assert "something is wrong" in exc_info.value.args[0]
+    assert exc_info.type == kata.KataSubError
+    assert issubclass(exc_info.type, kata.KataError)
+```
+
+## Decorators are useful once you figure them out
+
+Real Python has a nice [primer on python decorators](https://realpython.com/primer-on-python-decorators/). However, it does not seem to touch on the idea of working with the values passed to the wrapped function.
+
+If you want to work with the values, you need to account for them being passed in either by position *OR* keyword. Another option is to use [positional-only parameters](https://www.python.org/dev/peps/pep-0570/), but that requires Python 3.8+.
+
+You can also create decorators with additional arguments, but where regular decorators are called without parenthesis `@decorator`, if you have parameters, you need to include the parenthesis `@decorator()`.
+
+## The [inspect](https://docs.python.org/3/library/inspect.html) module can be fun if you play with `__name__` and `__file__`
+
+For the second kata, there were a lot of function with the name `score_*`. To find the best score for a given roll, I wanted to see what the scores were for each possible condition. Rather than hard coding each function (which would have been fine for a fixed game), I wanted to dynamically load all the scoring functions.
+
+I could find all the functions with the following snippet:
+
+```python
+scoring_functions = [
+    func
+    for name, func in inspect.getmembers(sys.modules[__name__])
+    if inspect.isfunction(func)
+    and inspect.getfile(func) == __file__
+    and name[:6] == "score_"
+]
+```
