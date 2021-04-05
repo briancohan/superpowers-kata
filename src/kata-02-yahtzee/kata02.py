@@ -1,9 +1,10 @@
 from __future__ import annotations
-from random import randint
+
 import functools
-from collections import Counter
 import inspect
 import sys
+from collections import Counter
+from random import randint
 
 
 class KataError(Exception):

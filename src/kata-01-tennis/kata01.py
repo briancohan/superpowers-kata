@@ -7,6 +7,7 @@ For official tennis terminology and rules:
 https://www.usta.com/en/home/improve/tips-and-instruction/national/tennis-scoring-rules.html
 """
 from __future__ import annotations
+
 import random
 from itertools import cycle
 
