@@ -109,3 +109,34 @@ scoring_functions = [
     and name[:6] == "score_"
 ]
 ```
+
+## You can tell [coverage](https://coverage.readthedocs.io/) to ignore lines.
+
+In my `test_kata02` file, I wanted to test my decorator function. I created a placeholder function with the following signature.
+
+```python
+def func(*args, **kwargs):
+    pass
+```
+
+Clearly, I have no intention of the inside of this function to execute. But since I'm putting my test code in the `src` folder, running `pytest --cov src` saw it as a miss.
+
+Looking at the [documentation](https://coverage.readthedocs.io/en/coverage-4.3.3/excluding.html), all you need is to put a comment that says `# pragma: no cover` on a line or the start of a block and it will be excluded like so.
+
+```python
+def func(*args, **kwargs):
+    pass  # pragma: no cover
+```
+
+However, I am not a huge fan of putting these comments in unless necessary. So I dug deeper and found that you can make a [configuration file](https://coverage.readthedocs.io/en/coverage-4.3.3/config.html). In the `[report]` section of the `.coveragerc`, you can specify `exclude_lines`. As such, the configuration below allows me to ignore any line that just says `pass` in any file.
+
+Furthermore, I specified that the source files are located in `src` so now I can just type `pytest --cov` instead of `pytest --cov=src`!
+
+```
+[run]
+source = src
+
+[report]
+exclude_lines =
+    pass
+```
