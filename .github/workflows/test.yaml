@@ -2,7 +2,7 @@ name: Automated Testing
 on: [push]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,8 +26,8 @@ jobs:
         run: |
           pytest --cov=src
 
-      - name: Black
-        uses: psf/black@stable
+      # - name: Black
+      #   uses: psf/black@stable
 
       - name: Mypy
         run: |
