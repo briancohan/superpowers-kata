@@ -8,7 +8,7 @@ def test_wrong_number_of_dice(n_dice):
     with pytest.raises(kata.InvalidRoll) as exc_info:
         kata.score_chance(dice)
     assert "You must roll 5 dice" in exc_info.value.args[0]
-    assert exc_info.type == kata.InvalidRoll
+    assert exc_info.type is kata.InvalidRoll
     assert issubclass(exc_info.type, kata.KataError)
 
 
@@ -18,7 +18,7 @@ def test_invalid_dice(wrong):
     with pytest.raises(kata.InvalidDie) as exc_info:
         kata.score_chance(dice)
     assert "invalid die" in exc_info.value.args[0]
-    assert exc_info.type == kata.InvalidDie
+    assert exc_info.type is kata.InvalidDie
     assert issubclass(exc_info.type, kata.KataError)
 
 
