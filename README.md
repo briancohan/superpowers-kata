@@ -140,3 +140,25 @@ source = src
 exclude_lines =
     pass
 ```
+
+## You can parallelize pytest with `pytest-xdist`
+
+[`pytest-xdist`](https://pypi.org/project/pytest-xdist/) can send your tests to multiple CPUs by running:
+
+`pytest -n NUMCPUS`
+
+There is a little bit of overhead so this may not yield much if the tests run fast enough. For Kata 03, I was testing all numbers 0 to 4,999 in both directions.
+
+| Command        | CPUs  | Time    |
+| -------------- | :---: | ------- |
+| `pytest`       |   1   | 16.34 s |
+| `pytest -n 6`  |   6   | 13.65 s |
+| `pytest -n 12` |  12   | 15.63 s |
+
+My computer has 6 cores / 12 threads. It appears that these tests ran best with one test per physical core.
+
+## You can tell pytest which tests to incldue or ignore
+
+If you use the `@pytest.mark.<name>` syntax, you can tell pytest which tests you want to run. You will have to [register your marks](https://docs.pytest.org/en/stable/mark.html) in the [configuration file](https://docs.pytest.org/en/stable/customize.html).
+
+You can specify which tests to run with `pytest -m <name>`. This will find all tests that ***M***atch the provided name. If you have multiple marks with similar names and you want to run them all, you can use `pytest -k <name>` and it will run all marks li***K***e the name specified.
