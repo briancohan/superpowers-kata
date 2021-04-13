@@ -5,12 +5,14 @@ https://www.tuomas.salste.net/doc/roman/numeri-romani-1-5000.html
 """
 import csv
 import random
+from pathlib import Path
 
 import kata03 as kata
 import pytest
 
-with open("numbers.csv") as csvfile:
-    reader = csv.reader(csvfile)
+csvfile = Path(__file__).parent.resolve() / "numbers.csv"
+with csvfile.open() as f:
+    reader = csv.reader(f)
     data = [row for row in reader]
 
 long_test = pytest.mark.parametrize("arabic, roman", data)
