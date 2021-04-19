@@ -27,3 +27,21 @@ def test_mix():
     order = [2, 2, 2, 1, 1]
     price = 8 * ((5 * 0.75) + (3 * 0.90))
     assert kata.order_total(order) == price
+
+
+def test_too_many_titles():
+    order = [1] * 10
+    with pytest.raises(kata.OrderError):
+        kata.order_total(order)
+
+
+def test_negative_values():
+    order = [1, 0, -1]
+    with pytest.raises(kata.OrderError):
+        kata.order_total(order)
+
+
+def test_non_numeric_count():
+    order = ["one"]
+    with pytest.raises(ValueError):
+        kata.order_total(order)
